@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supabase-Storage</title>
+    <link rel="stylesheet" href="./bootstrap.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
+      integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="card mx-2 mx-md-auto shadow" style="max-width: 400px">
+      <div class="card-body text-center">
+        <div class="border border-2 border-secondary border-dashed rounded p-5">
+          <div class="d-flex justify-content-center w-75 mx-auto">
+            <img src="" class="w-100" id="uiImage" />
+          </div>
+          <h1 id="cameraImgText">📸</h1>
+          <h5 class="pt-4" >Select Image</h5>
+          <p class="text-muted">Choose an image from your device</p>
+
+          <label for="picture" class="btn btn-primary"> Choose Image </label>
+
+          <input type="file" id="picture" hidden />
+          <br />
+          <button class="btn btn-success mt-3" id="upload">Upload</button>
+          <button class="btn btn-success mt-3" id="update">Update</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./bootstrap.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
