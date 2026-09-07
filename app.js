@@ -13,6 +13,7 @@ let cameraImgText = document.querySelector("#cameraImgText");
 let updateBtn = document.querySelector("#update");
 let heading = document.querySelector("h5");
 let text = document.querySelector("p");
+let deleteBtn = document.querySelector("#delete");
 
 let currentImg = "";
 
@@ -22,8 +23,8 @@ uploadBtn.addEventListener("click", async (event) => {
   console.log("upload image");
 
   cameraImgText.innerHTML = "";
-  heading.innerHTML = "Your Image"
-   text.innerHTML = "Image has been succesfully uploaded"
+  heading.innerHTML = "Your Image";
+  text.innerHTML = "Image has been succesfully uploaded";
 
   let uploadedFile = file.files[0];
 
@@ -73,10 +74,9 @@ uploadBtn.addEventListener("click", async (event) => {
 // ========== UPDATE IMAGE  ==========
 
 updateBtn.addEventListener("click", async () => {
-  
   let uploadedFile = file.files[0];
 
-    if (!uploadedFile) {
+  if (!uploadedFile) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
@@ -90,38 +90,52 @@ updateBtn.addEventListener("click", async () => {
   const { data, error } = await client.storage
     .from("images")
     .update(currentImg, uploadedFile, {
-         contentType: uploadedFile.type,
+      contentType: uploadedFile.type,
       cacheControl: "3600",
     });
 
-  
-  // Check update error first
+  // Check update error
   if (error) {
     console.log("Update failed:", error.message);
     return;
   }
 
-
-  console.log("UPDATE DATA:", data);
-  console.log("UPDATE ERROR:", error);
-
-  
   // GET UPDATED IMAGE URL
 
   const { data: updateData } = client.storage
     .from("images")
     .getPublicUrl(currentImg);
 
-  
   if (error) {
     console.log("Update failed:", error.message);
     return;
   }
-  
+
   let updateUiImg = `${updateData.publicUrl}?t=${Date.now()}`;
 
   uiImage.src = updateUiImg;
+});
 
-  console.log("UPDATE DATA:", data);
-  console.log("UPDATE ERROR:", error);
+// ========== DELETE IMAGE  ==========
+
+deleteBtn.addEventListener("click", async () => {
+  const { data, error } = await client.storage
+    .from("images")
+    .remove(currentImg);
+
+  uiImage.remove();
+
+  cameraImgText.innerHTML = "📸";
+  heading.innerHTML = "Select Image";
+  text.innerHTML = "Choose an image from your device";
+
+  Swal.fire({
+    title: "Image Deleted Successfully!",
+    icon: "success",
+    draggable: true,
+  });
+  if (error) {
+    console.log(error.message);
+    return;
+  }
 });
