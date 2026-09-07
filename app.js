@@ -40,6 +40,7 @@ uploadBtn.addEventListener("click", async (event) => {
       contentType: uploadedFile.type,
       upsert: false,
     });
+
   if (error) {
     console.log(error);
   }
@@ -50,8 +51,9 @@ uploadBtn.addEventListener("click", async (event) => {
     .from("images")
     .getPublicUrl(currentImg);
 
-
   if (uploadData) {
+    console.log(uploadData.publicUrl);
+
     uiImage.src = uploadData.publicUrl;
   } else {
     console.log(error);
@@ -75,40 +77,40 @@ updateBtn.addEventListener("click", async () => {
     });
     return;
   }
-  
+
   // UPDATE
-  
+
   const { data, error } = await client.storage
-  .from("images")
-  .update(currentImg, uploadedFile, {
-    contentType: uploadedFile.type,
-    cacheControl: "3600",
-  });
-  
+    .from("images")
+    .update(currentImg, uploadedFile, {
+      contentType: uploadedFile.type,
+      cacheControl: "3600",
+    });
+
   // Check update error
   if (error) {
     console.log("Update failed:", error.message);
     return;
   }
-  
+
   // GET UPDATED IMAGE URL
-  
+
   const { data: updateData, error: updateError } = client.storage
-  .from("images")
-  .getPublicUrl(currentImg);
-  
+    .from("images")
+    .getPublicUrl(currentImg);
+
   if (updateError) {
     console.log("Update failed:", updateError.message);
     return;
   }
-  
-  let updateUiImg = `${updateData.publicUrl}?t=${Date.now()}`;
-  
-  uiImage.src = updateUiImg;
-  
-    heading.innerHTML = "Your Updated Image";
-    text.innerHTML = "Image has been successfully updated";
 
+  let updateUiImg = `${updateData.publicUrl}?t=${Date.now()}`;
+  console.log(updateUiImg);
+
+  uiImage.src = updateUiImg;
+
+  heading.innerHTML = "Your Updated Image";
+  text.innerHTML = "Image has been successfully updated";
 });
 
 // ========== DELETE IMAGE  ==========
@@ -130,7 +132,6 @@ deleteBtn.addEventListener("click", async () => {
 
   uiImage.remove();
 
-  
   Swal.fire({
     title: "Image Deleted Successfully!",
     icon: "success",
