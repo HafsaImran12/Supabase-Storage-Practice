@@ -126,7 +126,7 @@ deleteBtn.addEventListener("click", async () => {
   }
   const { data, error } = await client.storage
     .from("images")
-    .remove(currentImg);
+    .remove([currentImg]);
 
   uiImage.remove();
 
